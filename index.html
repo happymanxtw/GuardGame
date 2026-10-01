@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>管家小遊戲</title>
+<meta name="description" content="五款一根手指就能玩的生活小遊戲，一局約 45 秒。垃圾車接接樂、撐傘躲雨、微笑騎士、加好加滿、準點進站。無廣告、不需網路、不收集個人資料。">
+<meta property="og:title" content="管家小遊戲">
+<meta property="og:description" content="五款一根手指就能玩的生活小遊戲，一局約 45 秒。無廣告、不需網路、不收集個人資料。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/icon-512.png">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  /* ---- 首屏 ---- */
+  .hero { padding-block: 28px 56px; }
+  .hero .wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 40px;
+    align-items: center;
+  }
+  .hero h1 { font-size: clamp(38px, 6.4vw, 62px); }
+  .hero .lead { margin: 18px 0 0; max-width: 34em; font-size: 18px; color: var(--ink-soft); }
+  .store-row { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .store {
+    display: flex; flex-direction: column; justify-content: center;
+    min-width: 168px; padding: 10px 18px;
+    border-radius: 14px; background: var(--ink); color: #ffffff;
+    line-height: 1.35;
+  }
+  .store small { font-size: 12px; color: #b9c3d6; }
+  .store span { font-size: 17px; font-weight: 700; }
+  .facts {
+    margin: 30px 0 0; padding: 0; list-style: none;
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .facts li {
+    padding: 6px 14px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--line);
+    font-size: 14px; color: var(--ink-soft);
+  }
+  .facts strong { color: var(--ink); font-weight: 700; }
+  .hero-art { position: relative; justify-self: center; width: min(100%, 360px); }
+  .hero-art img {
+    width: 100%; border-radius: 22%;
+    box-shadow: 0 30px 60px -24px rgba(13, 79, 184, 0.45);
+  }
+  .hero-art .tray-note {
+    position: absolute; left: -12px; bottom: 18px;
+    padding: 8px 14px; border-radius: 14px;
+    background: var(--yellow); color: var(--yellow-ink);
+    font-weight: 700; font-size: 14px;
+    box-shadow: 0 10px 24px -12px rgba(107, 74, 0, 0.5);
+  }
+
+  /* ---- 區塊共用 ---- */
+  section { padding-block: 56px; }
+  .section-head { max-width: 40em; margin-bottom: 28px; }
+  .section-head h2 { font-size: clamp(28px, 4.2vw, 38px); }
+  .section-head p { margin: 12px 0 0; color: var(--ink-soft); }
+
+  /* ---- 五款遊戲 ---- */
+  .games {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .game {
+    grid-column: span 2;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .game:nth-child(4), .game:nth-child(5) { grid-column: span 3; }
+  .game svg { width: 100%; height: auto; display: block; }
+  .game .body { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 8px; }
+  .game .tagline { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .game .from { font-size: 13px; color: var(--muted); }
+  .game .how {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+    padding: 2px 9px; border-radius: 999px;
+    background: var(--blue-tint); color: var(--blue-deep);
+  }
+  .game h3 { font-size: 23px; }
+  .game p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+
+  /* ---- 怎麼玩 ---- */
+  .steps {
+    margin: 0; padding: 0; list-style: none; counter-reset: step;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;
+  }
+  .steps li {
+    counter-increment: step;
+    padding: 22px; border-radius: var(--radius);
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .steps li::before {
+    content: counter(step);
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 999px;
+    background: var(--blue); color: #ffffff;
+    font-family: var(--display); font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .steps h3 { font-size: 20px; }
+  .steps p { margin: 6px 0 0; color: var(--ink-soft); font-size: 15px; }
+
+  .rewards {
+    margin-top: 18px; padding: 22px 24px; border-radius: var(--radius);
+    background: var(--blue-tint);
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
+  }
+  .rewards div { display: flex; flex-direction: column; gap: 2px; }
+  .rewards strong { font-family: var(--display); font-weight: 400; font-size: 22px; color: var(--blue-deep); }
+  .rewards span { font-size: 14px; color: var(--ink-soft); }
+
+  /* ---- 隱私承諾：整頁唯一的深色區塊 ---- */
+  .promise {
+    background: var(--ink); color: #eef2f8;
+    border-radius: 28px;
+    padding: 40px clamp(22px, 5vw, 56px);
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px;
+    align-items: center;
+  }
+  .promise .eyebrow { color: var(--yellow); }
+  .promise h2 { font-size: clamp(28px, 4.2vw, 38px); color: #ffffff; }
+  .promise p { margin: 14px 0 0; color: #c2cbdb; }
+  .promise a { color: var(--yellow); }
+  .promise ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .promise li {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px 16px; border-radius: 14px; background: #1e2f4d;
+  }
+  .promise li svg { flex-shrink: 0; margin-top: 4px; }
+
+  /* ---- 客服 ---- */
+  .faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 18px; align-items: start; }
+  .faq details {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    padding: 4px 18px;
+  }
+  .faq summary {
+    cursor: pointer; padding: 12px 0; font-weight: 700; list-style: none;
+    display: flex; justify-content: space-between; gap: 12px;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "＋"; color: var(--blue); font-weight: 400; }
+  .faq details[open] summary::after { content: "－"; }
+  .faq details p { margin: 0 0 14px; color: var(--ink-soft); font-size: 15px; }
+  .contact {
+    margin-top: 22px; padding: 20px 24px; border-radius: var(--radius);
+    background: var(--surface); border: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; justify-content: space-between;
+  }
+  .contact strong { font-size: 17px; }
+
+  @media (max-width: 860px) {
+    .hero .wrap { grid-template-columns: minmax(0, 1fr); }
+    .hero-art { width: min(72%, 300px); order: -1; }
+    .games { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .game, .game:nth-child(4), .game:nth-child(5) { grid-column: span 1; }
+    .game:nth-child(5) { grid-column: span 2; }
+    .promise { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 620px) {
+    .site-nav a:not(.keep) { display: none; }
+    .games { grid-template-columns: minmax(0, 1fr); }
+    .game, .game:nth-child(4), .game:nth-child(5) { grid-column: span 1; }
+    .steps, .rewards, .faq { grid-template-columns: minmax(0, 1fr); }
+    section { padding-block: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="./"><img src="assets/icon-512.png" alt="" width="40" height="40">管家小遊戲</a>
+    <nav class="site-nav" aria-label="主要">
+      <a href="#games">五款遊戲</a>
+      <a href="#how">怎麼玩</a>
+      <a href="privacy.html">隱私權</a>
+      <a class="keep" href="#support">客服</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">管家系列・生活小遊戲</p>
+      <h1>每天順手<br>玩一局</h1>
+      <p class="lead">五款「一根手指、看一眼就會玩」的小遊戲，一局約 45 秒。接垃圾、撐傘躲雨、騎單車、加油加剛好、捷運停準點——把生活裡的日常，變成一口氣的小挑戰。</p>
+      <div class="store-row">
+        <div class="store"><small>iPhone</small><span>App Store 即將上架</span></div>
+        <div class="store"><small>Android</small><span>Google Play 即將上架</span></div>
+      </div>
+      <ul class="facts">
+        <li><strong>5</strong> 款遊戲</li>
+        <li>每款 <strong>20</strong> 關</li>
+        <li>無廣告・無內購</li>
+        <li>不需網路</li>
+      </ul>
+    </div>
+    <div class="hero-art">
+      <img src="assets/icon-512.png" alt="管家小遊戲圖示：穿燕尾服的管家端著遊戲手把" width="512" height="512">
+      <span class="tray-note">今天的遊戲，請慢用</span>
+    </div>
+  </div>
+</section>
+
+<section id="games">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">五款遊戲</p>
+      <h2>五種日常，五種玩法</h2>
+      <p>每款都來自一個管家系列 App 的生活情境。從最簡單的第 1 關開始，越玩越有挑戰。</p>
+    </div>
+    <div class="games">
+
+      <article class="game">
+        <svg viewBox="0 0 360 200" role="img" aria-label="垃圾車在路上接住從天而降的垃圾袋">
+          <rect width="360" height="200" fill="#ffe7c2"/>
+          <rect y="168" width="360" height="32" fill="#546e7a"/>
+          <g fill="#ffffff" opacity="0.7"><rect x="14" y="182" width="26" height="4" rx="2"/><rect x="74" y="182" width="26" height="4" rx="2"/><rect x="134" y="182" width="26" height="4" rx="2"/><rect x="194" y="182" width="26" height="4" rx="2"/><rect x="254" y="182" width="26" height="4" rx="2"/><rect x="314" y="182" width="26" height="4" rx="2"/></g>
+          <path d="M96 36q20 8 18 34q-18 6-36 0q-2-26 18-34z" fill="#42a5f5"/><circle cx="96" cy="36" r="5" fill="#1e88e5"/>
+          <path d="M214 74q20 8 18 34q-18 6-36 0q-2-26 18-34z" fill="#42a5f5"/><circle cx="214" cy="74" r="5" fill="#1e88e5"/>
+          <rect x="282" y="34" width="20" height="30" rx="7" fill="#66bb6a"/><rect x="288" y="24" width="8" height="12" fill="#66bb6a"/><rect x="286" y="20" width="12" height="5" fill="#2e7d32"/>
+          <circle cx="44" cy="96" r="14" fill="#6d4c41"/><path d="M38 78q4-6 0-12M46 78q4-6 0-12" stroke="#9ccc65" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <rect x="128" y="120" width="74" height="40" rx="7" fill="#ffc107"/><rect x="132" y="114" width="66" height="7" fill="#795548"/>
+          <rect x="202" y="130" width="38" height="30" rx="7" fill="#ffa000"/><rect x="208" y="135" width="26" height="12" rx="3" fill="#b3e5fc"/>
+          <circle cx="150" cy="164" r="11" fill="#37474f"/><circle cx="150" cy="164" r="4" fill="#90a4ae"/>
+          <circle cx="218" cy="164" r="11" fill="#37474f"/><circle cx="218" cy="164" r="4" fill="#90a4ae"/>
+        </svg>
+        <div class="body">
+          <div class="tagline"><span class="how">左右拖曳</span><span class="from">來自垃圾管家</span></div>
+          <h3>垃圾車接接樂</h3>
+          <p>左右拖曳垃圾車，接住垃圾袋和回收瓶，避開臭彈。開場是你熟悉的《給愛麗絲》。</p>
+        </div>
+      </article>
+
+      <article class="game">
+        <svg viewBox="0 0 360 200" role="img" aria-label="撐傘的小人在雨中接住太陽">
+          <rect width="360" height="200" fill="#a9d4f8"/>
+          <g fill="#ffffff" opacity="0.85"><circle cx="70" cy="48" r="18"/><circle cx="92" cy="40" r="22"/><circle cx="116" cy="50" r="16"/><rect x="58" y="48" width="70" height="16" rx="8"/></g>
+          <g fill="#ffffff" opacity="0.85"><circle cx="262" cy="36" r="15"/><circle cx="282" cy="30" r="19"/><circle cx="302" cy="38" r="13"/><rect x="252" y="36" width="60" height="14" rx="7"/></g>
+          <rect y="176" width="360" height="24" fill="#81c784"/>
+          <g fill="#1565c0"><path d="M40 92q-6 10 0 14q6-4 0-14z"/><path d="M300 104q-6 10 0 14q6-4 0-14z"/><path d="M250 64q-6 10 0 14q6-4 0-14z"/><path d="M130 116q-6 10 0 14q6-4 0-14z"/></g>
+          <circle cx="210" cy="84" r="13" fill="#ffd54f"/>
+          <g stroke="#ffb300" stroke-width="3" stroke-linecap="round"><path d="M210 63v-6M210 111v-6M189 84h-6M237 84h-6M195 69l-4-4M229 103l-4-4M225 69l4-4M195 99l-4 4"/></g>
+          <path d="M150 128a34 30 0 0 1 68 0q-8-5-17 0q-8-5-17 0q-8-5-17 0q-9-5-17 0z" fill="#1976d2"/>
+          <path d="M185 128v26" stroke="#5d4037" stroke-width="3"/>
+          <circle cx="182" cy="140" r="7" fill="#ffcc80"/>
+          <rect x="174" y="148" width="16" height="20" rx="6" fill="#ffca28"/>
+          <path d="M178 168l-5 8M186 168l5 8" stroke="#37474f" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        <div class="body">
+          <div class="tagline"><span class="how">左右拖曳</span><span class="from">來自天氣管家</span></div>
+          <h3>撐傘躲雨</h3>
+          <p>接住太陽和彩虹、躲開雨滴。後段會颳起側風；聽到滋滋聲，就是閃電要劈下來了。</p>
+        </div>
+      </article>
+
+      <article class="game">
+        <svg viewBox="0 0 360 200" role="img" aria-label="單車在三線道上閃避坑洞、收集微笑徽章">
+          <rect width="360" height="200" fill="#7cb342"/>
+          <rect x="70" width="220" height="200" fill="#607d8b"/>
+          <g fill="#ffffff" opacity="0.85"><rect x="141" y="10" width="4" height="26"/><rect x="141" y="66" width="4" height="26"/><rect x="141" y="122" width="4" height="26"/><rect x="141" y="178" width="4" height="22"/><rect x="215" y="10" width="4" height="26"/><rect x="215" y="66" width="4" height="26"/><rect x="215" y="122" width="4" height="26"/><rect x="215" y="178" width="4" height="22"/></g>
+          <g fill="#388e3c"><circle cx="34" cy="40" r="17"/><circle cx="326" cy="110" r="17"/><circle cx="34" cy="160" r="17"/></g>
+          <ellipse cx="254" cy="62" rx="26" ry="13" fill="#263238"/>
+          <circle cx="180" cy="44" r="15" fill="#ffffff"/><circle cx="180" cy="44" r="12" fill="#ffd54f"/>
+          <path d="M173 46a7 6 0 0 0 14 0" stroke="#6d4c00" stroke-width="2.2" fill="none" stroke-linecap="round"/><circle cx="176" cy="40" r="1.8" fill="#6d4c00"/><circle cx="184" cy="40" r="1.8" fill="#6d4c00"/>
+          <rect x="102" y="96" width="40" height="18" rx="4" fill="#ffffff"/><g fill="#ff6f00"><path d="M106 114l10-18h8l-10 18z"/><path d="M122 114l10-18h8l-10 18z"/></g>
+          <rect x="176" y="136" width="8" height="22" rx="4" fill="#263238"/><rect x="176" y="176" width="8" height="22" rx="4" fill="#263238"/>
+          <path d="M180 142v42" stroke="#f9a825" stroke-width="6" stroke-linecap="round"/>
+          <path d="M166 148h28" stroke="#37474f" stroke-width="4" stroke-linecap="round"/>
+          <rect x="168" y="158" width="24" height="15" rx="7" fill="#1e88e5"/>
+          <circle cx="180" cy="160" r="8" fill="#ff7043"/>
+        </svg>
+        <div class="body">
+          <div class="tagline"><span class="how">點擊換道</span><span class="from">來自微笑單車管家</span></div>
+          <h3>微笑騎士</h3>
+          <p>點左半邊往左、點右半邊往右，閃過坑洞和路障，沿路收集微笑徽章。開場有清脆的單車鈴。</p>
+        </div>
+      </article>
+
+      <article class="game">
+        <svg viewBox="0 0 540 200" role="img" aria-label="油量表正在加油，指針接近綠色區間">
+          <rect width="540" height="200" fill="#ffe9d1"/>
+          <rect y="28" width="540" height="18" fill="#d84315"/><rect y="46" width="540" height="4" fill="#ffffff"/>
+          <rect x="420" y="76" width="48" height="96" rx="6" fill="#ffffff"/><rect x="420" y="76" width="48" height="14" rx="6" fill="#d84315"/>
+          <rect x="426" y="96" width="36" height="26" rx="3" fill="#263238"/>
+          <text x="444" y="114" text-anchor="middle" font-size="12" font-family="ui-monospace, monospace" fill="#76ff03">24.5</text>
+          <rect y="172" width="540" height="28" fill="#90a4ae"/>
+          <g transform="translate(372 172) scale(-1 1)">
+            <rect x="0" y="-42" width="128" height="30" rx="8" fill="#43a047"/>
+            <path d="M24 -42l14-20h48l16 20z" fill="#43a047"/>
+            <path d="M32 -42l10-15h18v15zM66 -42v-15h16l12 15z" fill="#b3e5fc"/>
+            <circle cx="28" cy="-10" r="11" fill="#263238"/><circle cx="100" cy="-10" r="11" fill="#263238"/>
+          </g>
+          <path d="M414 118q-14 30-46 24" stroke="#212121" stroke-width="4" fill="none"/><rect x="356" y="136" width="14" height="9" rx="3" fill="#d84315"/>
+          <g transform="translate(70 62)">
+            <rect x="-10" y="-10" width="76" height="132" rx="18" fill="#455a64"/>
+            <rect x="0" y="0" width="56" height="112" rx="12" fill="#eceff1"/>
+            <rect x="0" y="22" width="56" height="26" fill="#81c784"/><rect x="0" y="32" width="56" height="6" fill="#2e7d32"/>
+            <path d="M0 35q14-5 28 0t28 0V100a12 12 0 0 1-12 12H12A12 12 0 0 1 0 100z" fill="#f57c00"/>
+            <rect x="1" y="22" width="54" height="26" fill="none" stroke="#2e7d32" stroke-width="2"/>
+            <path d="M68 35l12-7v14z" fill="#2e7d32"/>
+          </g>
+          <text x="196" y="112" font-size="22" font-family="Huninn, 'Noto Sans TC', sans-serif" fill="#bf360c">放開！</text>
+        </svg>
+        <div class="body">
+          <div class="tagline"><span class="how">按住・放開</span><span class="from">來自油價管家</span></div>
+          <h3>加好加滿</h3>
+          <p>按住加油、放開停止，停在綠區正中央就是「加好加滿」。計量器每 2.5 公升喀一聲——聽喀聲快慢，就知道油加得多快。</p>
+        </div>
+      </article>
+
+      <article class="game">
+        <svg viewBox="0 0 540 200" role="img" aria-label="捷運列車停靠，車門對準月台門">
+          <rect width="540" height="200" fill="#e0f2f1"/>
+          <rect y="54" width="540" height="110" fill="#37474f"/>
+          <g fill="#fff59d" opacity="0.6"><rect x="20" y="64" width="40" height="5" rx="2"/><rect x="130" y="64" width="40" height="5" rx="2"/><rect x="240" y="64" width="40" height="5" rx="2"/><rect x="350" y="64" width="40" height="5" rx="2"/><rect x="460" y="64" width="40" height="5" rx="2"/></g>
+          <rect x="20" y="82" width="420" height="76" rx="10" fill="#eceff1"/>
+          <path d="M440 82h20q36 0 40 30v34a12 12 0 0 1-12 12h-48z" fill="#eceff1"/>
+          <path d="M468 90h22q8 6 10 24h-32z" fill="#263238"/>
+          <rect x="20" y="132" width="476" height="9" fill="#00897b"/>
+          <g fill="#90a4ae"><rect x="60" y="96" width="40" height="26" rx="4"/><rect x="180" y="96" width="40" height="26" rx="4"/><rect x="300" y="96" width="40" height="26" rx="4"/></g>
+          <g fill="#cfd8dc" stroke="#00897b" stroke-width="2"><rect x="120" y="94" width="44" height="62"/><rect x="240" y="94" width="44" height="62"/><rect x="360" y="94" width="44" height="62" stroke-width="3"/></g>
+          <rect x="0" y="70" width="540" height="10" fill="#00695c"/>
+          <g fill="#ffffff" fill-opacity="0.22" stroke="#43a047" stroke-width="3"><rect x="354" y="80" width="56" height="84"/></g>
+          <path d="M382 42l-10-14h20z" fill="#43a047"/>
+          <rect y="164" width="540" height="36" fill="#cfd8dc"/>
+          <rect y="172" width="540" height="6" fill="#ffca28"/>
+          <rect x="352" y="184" width="60" height="7" fill="#66bb6a"/>
+          <text x="40" y="36" font-size="16" font-family="ui-monospace, monospace" fill="#00695c">誤差 3 公分　完美停靠</text>
+        </svg>
+        <div class="body">
+          <div class="tagline"><span class="how">點一下煞車</span><span class="from">來自捷運管家</span></div>
+          <h3>準點進站</h3>
+          <p>列車進站中，抓準時機點一下煞車，讓車門正對月台門。誤差以公分計，對準了車門才會打開。</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">怎麼玩</p>
+      <h2>不用看說明，三步驟就上手</h2>
+    </div>
+    <ol class="steps">
+      <li><h3>選一款</h3><p>五款遊戲各有 20 關，前一關過了就解鎖下一關。第 1 關人人都過得了。</p></li>
+      <li><h3>玩一局約 45 秒</h3><p>一根手指就能玩：拖曳、點擊或按住。等公車、等捷運的空檔剛剛好。</p></li>
+      <li><h3>拿星星、存金幣</h3><p>分數越高星星越多，最多 3 顆。想拿滿星？再挑戰一次就好。</p></li>
+    </ol>
+    <div class="rewards">
+      <div><strong>每日首局 ×2</strong><span>每天第一次過關，金幣加倍</span></div>
+      <div><strong>首次三星加碼</strong><span>每關第一次拿到 3 星，多送金幣</span></div>
+      <div><strong>100 關</strong><span>五款遊戲、每款 20 關，難度逐步爬升</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="privacy">
+  <div class="wrap">
+    <div class="promise">
+      <div>
+        <p class="eyebrow">隱私承諾</p>
+        <h2>不收集任何個人資料</h2>
+        <p>遊戲進度只存在你的手機裡，不上傳、不追蹤、不需要帳號。完整說明請見<a href="privacy.html">隱私權政策</a>。</p>
+      </div>
+      <ul>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffc83d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>不需註冊、不需登入</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffc83d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>不需網路，離線也能玩</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffc83d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>沒有廣告、沒有內購</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffc83d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>不要求相機、麥克風、定位等任何權限</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="support">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">客服支援</p>
+      <h2>常見問題</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>遊戲進度存在哪裡？</summary>
+        <p>星星、金幣和設定都存在你的手機本機。解除安裝 App 或清除 App 資料後，進度會一併刪除且無法復原。</p>
+      </details>
+      <details>
+        <summary>需要網路嗎？</summary>
+        <p>不需要。所有遊戲都能離線遊玩，App 不會連線到任何伺服器。</p>
+      </details>
+      <details>
+        <summary>有廣告或付費內容嗎？</summary>
+        <p>沒有。管家小遊戲沒有廣告，也沒有任何內購或訂閱。</p>
+      </details>
+      <details>
+        <summary>聲音太大或想安靜玩？</summary>
+        <p>遊玩畫面右上角有靜音按鈕，設定會被記住。在 iPhone 上，切到靜音模式時遊戲也會跟著靜音。</p>
+      </details>
+      <details>
+        <summary>遊戲音效會打斷我在聽的音樂嗎？</summary>
+        <p>不會。遊戲音效會和你正在播放的音樂、Podcast 一起播放，不會讓它們暫停。</p>
+      </details>
+      <details>
+        <summary>一直過不了關怎麼辦？</summary>
+        <p>拿到 1 顆星就算過關。每款遊戲的前幾關都比較簡單，可以先回去拿滿星熟悉手感，再挑戰後面的關卡。</p>
+      </details>
+    </div>
+    <div class="contact">
+      <div>
+        <strong>還有其他問題？</strong>
+        <div style="color: var(--ink-soft); font-size: 15px;">寫信給我們，我們會盡快回覆。</div>
+      </div>
+      <a href="mailto:happymanx.tw@gmail.com" style="font-weight: 700;">happymanx.tw@gmail.com</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© 2026 Happy Studio・管家小遊戲</span>
+    <nav aria-label="頁尾">
+      <a href="privacy.html">隱私權政策</a>
+      <a href="#support">客服支援</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
